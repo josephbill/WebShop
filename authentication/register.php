@@ -21,6 +21,7 @@ $_SESSION["reg"] = "Registration Successful";
 $_SESSION["noreg"] = "Registration not Successful";
 $_SESSION['classTypeSuccess'] = "success";
 $_SESSION['classTypeError'] = "danger";
+$_SESSION['userTaken'] = "Wrong Credentials , try again or create an account";
 
 
 
@@ -50,12 +51,27 @@ if (empty($_POST['password'])) {
 		//encrypting my password 
 		$encrypted_pass = md5($password);
 	}
-	
 
-	if (empty($usernameErr) && empty($emailErr) && empty($passwordErr)) {
+
+	//fetching records to compare sign up details 
+	$sql = "SELECT * FROM users WHERE username='$usernames' && email='$email'";
+	//execute the query 
+	$result = mysqli_query($conn,$sql);
+	//finding the number of rows which match my sql query
+	$num = mysqli_num_rows($result);
+	//check if the implementations above 
+	// echo "number of row(s) that match reg details " . $num;
+
+	//logic to use the number rows 
+	if ($num >= 1) {
+		# code...
+		$_SESSION['userTaken'];
+		header("location: ../index.php?wrongCred");
+	} else {
+		if (empty($usernameErr) && empty($emailErr) && empty($passwordErr)) {
 		# code...
 		//prepare the statement
-		$stmt = $conn->prepare("INSERT INTO users (username,email,password) VALUES (?,?,?)");
+		$stmt = $conn->prepare("INSERT INTO users (username,email,userpassword) VALUES (?,?,?)");
 		$stmt->bind_param("sss",$usernames,$email,$encrypted_pass);
 
 		if ($stmt->execute() === TRUE) {
@@ -72,6 +88,10 @@ if (empty($_POST['password'])) {
 
 		}
 	}
+
+	
+	}
+	
 
 	
 

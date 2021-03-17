@@ -83,6 +83,10 @@ session_start();
                           echo $_SESSION['classTypeError'];
                           session_unset();
                           session_destroy();
+                       } elseif (isset($_GET['wrongCred'])){
+                          echo $_SESSION['classTypeError'];
+                          session_unset();
+                          session_destroy();
                        }
                  ?>">
                     <?php
@@ -111,6 +115,17 @@ session_start();
                             echo "not registered";
                           }
                        
+                       } elseif (isset($_GET['wrongCred'])) {
+                         # code...
+                         if (isset($_SESSION['userTaken'])) {
+                           # code...
+                           echo $_SESSION['userTaken'];
+                           session_unset();
+                           session_destroy();
+
+                         } else {
+                           echo "Credentials (Username or Email) currently exist. Try different credentials";
+                         }
                        }
 
                     ?>
@@ -152,14 +167,75 @@ session_start();
          	</div>
          
          	<div class="col" style="text-align: center; margin-top: 30px;">
+              <p class="alert alert-<?php 
+                 if (isset($_GET['wrongCredLogin'])) {
+                     # code...
+                      if (isset($_SESSION['alertTypeError'])) {
+                        # code...
+                        echo $_SESSION['alertTypeError'];
+                        session_unset();
+                        session_destroy();
+                      } elseif($_GET['update']){
+                        echo $_SESSION['alertTypeError'];
+                        session_unset();
+                        session_destroy();
+                      } 
+                      else {
+                        echo "danger";
+                      }
+                   }
+
+                 ?>"> 
+                <?php 
+                   if (isset($_GET['wrongCredLogin'])) {
+                     # code...
+                      if (isset($_SESSION['userUnaivable'])) {
+                        # code...
+                        echo $_SESSION['userUnaivable'];
+                        session_unset();
+                        session_destroy();
+                      }
+                       else {
+                        echo "user details are wrong, kindly check and try again";
+                      }
+                   }
+
+                ?>
+              </p>
+              <p class="alert alert-<?php 
+                      if(isset($_GET['update'])){
+                          if($_SESSION['typeAlert']){
+                            echo $_SESSION['typeAlert'];
+                            session_unset();
+                            session_destroy();
+                          } else {
+                            echo "info";
+                          }
+                      }
+
+                ?>">
+            <?php  
+              if (isset($_GET['update'])) {
+                        # code...
+                        if (isset($_SESSION['updateSuccess'])) {
+                          # code...
+                        echo $_SESSION['updateSuccess'];
+                        session_unset();
+                        session_destroy();
+                        } else {
+                          echo "reset successful login with new password";
+                        }
+                      }
+                 ?>    
+              </p>
          	    <h3>Login</h3>
          		<hr style="margin-right: 26px; margin-left: 26px;">
         <form action="authentication/access.php" method="post"> 
          			<div class="form-group">
-         				<input type="text" name="username" id="username" class="form-control" placeholder="Enter Username">
+         				<input type="text" name="emailLog" id="emailLog" class="form-control" placeholder="Enter Email">
          			</div>
          			<div class="form-group">
-         				<input type="password" name="password" id="password" class="form-control" placeholder="Enter password">
+         				<input type="password" name="passLog" id="passLog" class="form-control" placeholder="Enter password">
          			</div>
          		    <div class="form-group">
          		    	<input type="submit" name="login" id="login" class="btn btn-success btn-block" value="Login">
@@ -167,6 +243,10 @@ session_start();
 
          		    <div class="form-group" style="text-align: center;">
          		    	<p>If you do not have an account , create one in the Create Account Form</p>
+                  <a href="authentication/reset.php">
+                                      <p>Forgot Password ?  Reset Password</p>
+
+                  </a>
          		    </div>
          			
          		</form>
