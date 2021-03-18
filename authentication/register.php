@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 	echo "connection failed" . $conn->connect_error;
 } 
 //variables to store our users input 
-$usernames = $email = $password = $encrypted_pass = '';
+$usernames = $email = $password = $encrypted_pass = $role  = '';
 $usernameErr = $emailErr = $passwordErr = '';
 
 //session variables 
@@ -51,6 +51,13 @@ if (empty($_POST['password'])) {
 		//encrypting my password 
 		$encrypted_pass = md5($password);
 	}
+    
+  $role = $_POST['role'];
+
+
+
+
+
 
 
 	//fetching records to compare sign up details 
@@ -71,8 +78,8 @@ if (empty($_POST['password'])) {
 		if (empty($usernameErr) && empty($emailErr) && empty($passwordErr)) {
 		# code...
 		//prepare the statement
-		$stmt = $conn->prepare("INSERT INTO users (username,email,userpassword) VALUES (?,?,?)");
-		$stmt->bind_param("sss",$usernames,$email,$encrypted_pass);
+		$stmt = $conn->prepare("INSERT INTO users (username,email,userpassword,role) VALUES (?,?,?,?)");
+		$stmt->bind_param("ssss",$usernames,$email,$encrypted_pass,$role);
 
 		if ($stmt->execute() === TRUE) {
 			# code...

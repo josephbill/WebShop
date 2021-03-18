@@ -1,31 +1,29 @@
-<?php
-session_start();
-?>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Dahsboard</title>
+	<title></title>
 </head>
 <body>
-<p>
-	<?php  if (isset($_GET['guest'])) {
+
+	<p>
+		
+
+			<?php  if (isset($_GET['logged'])) {
 		# code...
-		if (isset($_SESSION['guest'])) {
+		if (isset($_SESSION['activeUser'])) {
 			# code...
-			echo $_SESSION['guest'];
+			echo $_SESSION['activeUser'];
 			session_unset();
 			session_destroy();
 		} else {
-			echo "Welcome guest";
+			echo "Welcome student user";
 		}
 	} ?>
 
 
-</p>
-
+	</p>
 <form action="../authentication/logout.php">
 	<input type="submit" name="logout" id="logout" value="Logout">
 </form>
- 
- 	
 </body>
 </html>

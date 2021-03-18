@@ -139,6 +139,17 @@ session_start();
          			<div class="form-group">
          				<input type="text" name="username" id="username" class="form-control" placeholder="Enter Username">
          			</div>
+
+              <!-- role selection -->
+              <div class="form-group">
+                <label for="role" style="padding: 5px;">Select User Role</label>
+                <select name="role" id="role" class="form-control">
+                    <option></option>
+                     <option value="Admin">Admin</option>
+                     <option value="Student">Student</option>
+                </select>
+              </div>
+        
          			<div class="form-group">
          				<input type="email" name="email" id="email" class="form-control" placeholder="Enter Email">
          			</div>
@@ -185,6 +196,24 @@ session_start();
                       }
                    }
 
+                            if (isset($_GET['nverified'])) {
+                     # code...
+                      if (isset($_SESSION['alertTypeError'])) {
+                        # code...
+                        echo $_SESSION['alertTypeError'];
+                        session_unset();
+                        session_destroy();
+                      } elseif($_GET['update']){
+                        echo $_SESSION['alertTypeError'];
+                        session_unset();
+                        session_destroy();
+                      } 
+                      else {
+                        echo "danger";
+                      }
+                   }
+
+
                  ?>"> 
                 <?php 
                    if (isset($_GET['wrongCredLogin'])) {
@@ -197,6 +226,18 @@ session_start();
                       }
                        else {
                         echo "user details are wrong, kindly check and try again";
+                      }
+                   }
+
+                   if (isset($_GET['nverified'])) {
+                     # code...
+                      if (isset($_SESSION['notVerified'])) {
+                        # code...
+                        echo $_SESSION['notVerified'];
+                        session_unset();
+                        session_destroy();
+                      } else {
+                        echo "not verified yet";
                       }
                    }
 
